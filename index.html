@@ -1,46 +1,31 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ion­nalee — Mandragora RPG</title>
-  <link rel="stylesheet" href="styles.css">
-  <meta name="description" content="Fan-made RPG inspired by ionnalee / iamamiwhoami — Mandragora Forest" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Y: The Bounty Cycle</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="ui">
-    <div id="title">IONNALEE — MANDRAGORA RPG</div>
-    <div id="controls">Move: <strong>WASD / Arrows</strong> · Interact: <strong>E</strong></div>
+    <div id="main-container">
+        <div id="scene-image-container">
+            <img id="scene-image" src="assets/images/placeholder_forest.jpg" alt="Cena atual">
+        </div>
 
-    <label for="mode">Mode</label>
-    <select id="mode">
-      <option value="aesthetic">Aesthetic</option>
-      <option value="basic">Basic</option>
-      <option value="sprites">Sprites</option>
-      <option value="largemap">Large Map</option>
-    </select>
+        <div id="narrative-container">
+            <div id="story-text">Carregando o mundo...</div>
+            <div id="choices-container">
+                </div>
+        </div>
 
-    <div class="buttons">
-      <button id="btnRestart">Restart</button>
-      <button id="btnReset">Reset World</button>
+        <div id="inventory-bar">
+            <span>INVENTÁRIO: </span>
+            <div id="inventory-items">
+                </div>
+        </div>
     </div>
 
-    <div class="credits small">Fan project inspired by <em>ionnalee / iamamiwhoami</em>.</div>
-  </div>
-
-  <div id="hud">
-    <div id="hud-mand">Mandragoras: 0</div>
-    <div id="hud-animal">Animals: 0</div>
-    <div id="hud-chap">Chapter: 0</div>
-  </div>
-
-  <div id="gameWrap">
-    <canvas id="game" width="1024" height="640"></canvas>
-  </div>
-
-  <div id="message" class="hidden"></div>
-  <div id="prompt" class="hidden">Press <strong>E</strong> to interact</div>
-
-  <script src="script.js"></script>
+    <script src="data.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>
