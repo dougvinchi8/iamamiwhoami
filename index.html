@@ -3,29 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Y: The Bounty Cycle</title>
-    <link rel="stylesheet" href="style.css">
+    <title>BOUNTY: The Cycle</title>
+    <style>
+        /* --- ESTILOS VISUAIS (O DESIGN DO JOGO) --- */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+        body {
+            background-color: #050505; /* Fundo PRETO QUASE TOTAL */
+            color: #c0c0c0; /* Texto cinza claro */
+            font-family: 'Space Mono', monospace; /* Fonte estilo código/máquina */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Container principal do jogo */
+        #game-wrapper {
+            width: 100%;
+            max-width: 700px;
+            background: #0e0e0e;
+            border: 1px solid #333; /* Borda sutil */
+            box-shadow: 0 0 50px rgba(0, 50, 20, 0.3); /* Brilho verde escuro atrás */
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        /* Barra de status no topo */
+        #stats-bar {
+            padding: 10px 20px;
+            background: #000;
+            border-bottom: 1px solid #333;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .status-organic { color: #5c9e6c; text-shadow: 0 0 5px #5c9e6c; font-weight: bold;}
+        .status-synthetic { color: #aaddff; text-shadow: 0 0 5px #aaddff; font-weight: bold;}
+
+        /* Área da Imagem */
+        #scene-image-container {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            overflow: hidden;
+            background: #000;
+            border-bottom: 1px solid #333;
+        }
+
+        #scene-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+            transition: opacity 0.5s ease;
+            /* Filtro para deixar as fotos com ar de mistério */
+            filter: grayscale(40%) contrast(110%) brightness(90%); 
+        }
+
+        /* Área de Texto */
+        #narrative-container { 
+            padding: 30px; 
+            min-height: 200px;
+        }
+
+        #scene-title {
+            margin-top: 0;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        #story-text {
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        /* Botões de Escolha */
+        .choice-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: transparent;
+            border: 1px solid #444;
+            color: #fff;
+            text-align: left;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .choice-btn:hover {
+            background: #1a1a1a;
+            border-color: #5c9e6c; /* Borda verde ao passar o mouse */
+            padding-left: 25px; /* Efeito de deslizar */
+        }
+
+        /* Inventário */
+        #inventory-bar {
+            background: #080808;
+            padding: 15px 30px;
+            border-top: 1px solid #333;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        .inv-item {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 2px 8px;
+            border: 1px solid #333;
+            color: #999;
+            background: #111;
+        }
+
+        /* Efeito de granulação na tela (Vibe de filme antigo/VHS) */
+        .grain-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.4;
+        }
+    </style>
 </head>
 <body>
-    <div id="main-container">
+    <div class="grain-overlay"></div>
+
+    <div id="game-wrapper">
+        <header>
+            <div id="stats-bar">
+                <span id="form-display">FORMA: <span class="status-organic">ORGÂNICA (Raiz)</span></span>
+                <span id="sanity-display">SANIDADE: ESTÁVEL</span>
+            </div>
+        </header>
+
         <div id="scene-image-container">
-            <img id="scene-image" src="assets/images/placeholder_forest.jpg" alt="Cena atual">
+            <img id="scene-image" src="" alt="Cena do jogo">
         </div>
 
         <div id="narrative-container">
-            <div id="story-text">Carregando o mundo...</div>
+            <h2 id="scene-title">Carregando...</h2>
+            <p id="story-text">...</p>
+            
             <div id="choices-container">
                 </div>
         </div>
 
         <div id="inventory-bar">
             <span>INVENTÁRIO: </span>
-            <div id="inventory-items">
-                </div>
+            <div id="inventory-items"></div>
         </div>
     </div>
 
-    <script src="data.js"></script>
-    <script src="game.js"></script>
+    <script>
+        /* --- DADOS DO JOGO (História e Links de Imagens) --- */
+        const gameData = {
+            "start": {
+                title: "O Nascimento (t)",
+                // Imagem de floresta úmida
+                image: "https://images.unsplash.com/photo-1542253738-f86053351f38?q=80&w=1000&auto=format&fit=crop",
+                text: "Você acorda sentindo o gosto de terra. Seu corpo é pesado, feito de raízes e musgo. O ar está gelado. Ao longe, você ouve um som sintético ecoando entre as árvores.",
+                choices: [
+                    { text: "Tentar se levantar e caminhar.", next: "clearing" },
+                    { text: "Enterrar-se mais fundo na terra.", next: "sleep" }
+                ]
+            },
+            "sleep": {
+                title: "Dormência",
+                image: "https://images.unsplash.com/photo-1504198266287-1659872e6590?q=80&w=1000",
+                text: "A terra é segura, mas o som sintético fica mais alto. Você não pode se esconder para sempre. A floresta exige que você evolua.",
+                choices: [
+                    { text: "Acordar.", next: "start" }
+                ]
+            },
+            "clearing": {
+                title: "A Clareira da Bétula",
+                // Imagem de floresta com neblina
+                image: "https://images.unsplash.com/photo-1440557653082-e8e186733eeb?q=80&w=1000",
+                text: "Você fica de pé. Na sua frente há uma bétula branca com algo brilhante e não-natural preso nos galhos baixos. À direita, um caminho leva a um lago escuro.",
+                choices: [
+                    { text: "Investigar o objeto brilhante.", next: "foil_tree" },
+                    { text: "Ir para o lago.", next: "lake_shore" }
+                ]
+            },
+            "foil_tree": {
+                title: "O Material Prateado (y)",
+                // Imagem de textura metálica/prata
+                image: "https://images.unsplash.com/photo-1622629739566-a4d334cb4760?q=80&w=1000",
+                text: "É um rolo de papel alumínio industrial. Ele vibra ao seu toque. Não é natural, mas parece oferecer proteção contra o mundo exterior.",
+                choices: [
+                    { 
+                        text: "Envolver-se no papel alumínio (Tornar-se Sintético).", 
+                        effect: "become_synthetic", 
+                        next: "foil_taken", 
+                        reqForm: "organic" // Só aparece se você for orgânico
+                    },
+                    { text: "Deixar lá e voltar.", next: "clearing" }
+                ]
+            },
+            "foil_taken": {
+                title: "Transformação",
+                image: "https://images.unsplash.com/photo-1506368863148-18e32906371c?q=80&w=1000",
+                text: "O material adere ao seu corpo como uma segunda pele. Você agora brilha. O frio não te incomoda mais, mas você sente a terra se afastar de sua essência.",
+                choices: [
+                    { text: "Voltar para a clareira.", next: "clearing" }
+                ]
+            },
+            "lake_shore": {
+                title: "O Lago Negro",
+                image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=1000",
+                text: "A água é parada como vidro escuro. No centro do lago, há uma porta flutuando sozinha.",
+                choices: [
+                    { text: "Nadar até a porta (Risco de Afundar).", next: "drown_risk", reqForm: "synthetic" },
+                    { text: "Entrar na água e nadar.", next: "water_door", reqForm: "organic" },
+                    { text: "Voltar.", next: "clearing" }
+                ]
+            },
+            "water_door": {
+                title: "A Porta",
+                image: "https://images.unsplash.com/photo-1517840545241-c46b152d1c67?q=80&w=1000",
+                text: "A água aceita seu corpo de raízes. Você chega à porta. Ela se abre revelando uma luz branca intensa... FIM DA DEMO.",
+                choices: [
+                    { text: "Reiniciar o ciclo.", next: "start" }
+                ]
+            },
+            "drown_risk": {
+                title: "Peso Morto",
+                image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=1000",
+                text: "Sua armadura de metal é pesada demais. Você afunda imediatamente na escuridão do lago...",
+                choices: [
+                    { text: "Tentar emergir desesperadamente.", next: "clearing" }
+                ]
+            }
+        };
+
+        /* --- MOTOR DO JOGO (Não precisa mexer aqui) --- */
+        let gameState = {
+            currentLocation: "start",
+            inventory: [],
+            form: "organic",
+        };
+
+        const sceneImage = document.getElementById('scene-image');
+        const sceneTitle = document.getElementById('scene-title');
+        const storyText = document.getElementById('story-text');
+        const choicesContainer = document.getElementById('choices-container');
+        const inventoryItems = document.getElementById('inventory-items');
+        const formDisplay = document.getElementById('form-display');
+
+        const effects = {
+            "become_synthetic": () => {
+                gameState.form = "synthetic";
+                if(!gameState.inventory.includes("armadura_prata")) {
+                    gameState.inventory.push("armadura_prata");
+                }
+                updateStats();
+            },
+            "become_organic": () => {
+                gameState.form = "organic";
+                updateStats();
+            }
+        };
+
+        function updateStats() {
+            if(gameState.form === 'organic') {
+                formDisplay.innerHTML = `FORMA: <span class="status-organic">ORGÂNICA</span>`;
+            } else {
+                formDisplay.innerHTML = `FORMA: <span class="status-synthetic">SINTÉTICA</span>`;
+            }
+            updateInventory();
+        }
+
+        function updateInventory() {
+            inventoryItems.innerHTML = "";
+            gameState.inventory.forEach(item => {
+                const span = document.createElement('span');
+                span.classList.add('inv-item');
+                span.innerText = item.replace(/_/g, ' ').toUpperCase();
+                inventoryItems.appendChild(span);
+            });
+        }
+
+        function loadLocation(key) {
+            const data = gameData[key];
+            if(!data) { console.error("Erro: Cena não existe -> " + key); return; }
+
+            // Fade visual da imagem
+            sceneImage.style.opacity = 0;
+            setTimeout(() => {
+                sceneImage.src = data.image;
+                sceneImage.style.opacity = 0.9;
+            }, 300);
+
+            sceneTitle.innerText = data.title;
+            storyText.innerText = data.text;
+            choicesContainer.innerHTML = "";
+
+            data.choices.forEach(choice => {
+                // Verifica se a opção deve aparecer baseada na forma atual
+                let show = true;
+                if (choice.reqForm && choice.reqForm !== gameState.form) {
+                     show = false; 
+                }
+
+                if (show) {
+                    const btn = document.createElement('button');
+                    btn.classList.add('choice-btn');
+                    btn.innerText = choice.text;
+                    btn.onclick = () => {
+                        if(choice.effect && effects[choice.effect]) {
+                            effects[choice.effect]();
+                        }
+                        loadLocation(choice.next);
+                    };
+                    choicesContainer.appendChild(btn);
+                }
+            });
+        }
+
+        // Inicia o jogo ao carregar a página
+        window.onload = function() {
+            updateStats();
+            loadLocation("start");
+        };
+    </script>
 </body>
 </html>
