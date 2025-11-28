@@ -1,0 +1,37 @@
+:root{
+  --bg-dark: #071025;
+  --panel: rgba(255,255,255,0.04);
+  --muted: #d6e7ff;
+  --accent: #7fb7f7;
+  --glass: rgba(255,255,255,0.03);
+}
+*{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Helvetica,Arial,sans-serif}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,#eaf6ff 0%, #071025 70%);color:var(--muted);overflow:hidden}
+#ui{
+  position:fixed;left:12px;top:12px;z-index:60;background:var(--panel);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);width:280px;
+  backdrop-filter: blur(6px);
+}
+#title{font-weight:700;letter-spacing:0.08em;margin-bottom:6px}
+#controls{font-size:13px;margin-bottom:10px;color:#bcd6ff}
+#mode, #btnRestart, #btnReset{width:100%;padding:8px;margin-top:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted)}
+.buttons{display:flex;gap:8px;margin-top:8px}
+.buttons button{flex:1}
+.small{font-size:12px;opacity:0.8;margin-top:8px}
+
+#hud{position:fixed;right:14px;top:14px;z-index:60;background:var(--glass);padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+#hud div{font-size:14px;margin:6px 0}
+
+#gameWrap{position:absolute;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center}
+canvas{border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,0.55);background:#020612}
+
+#message{
+  position:fixed;left:50%;top:18px;transform:translateX(-50%);padding:10px 14px;border-radius:10px;background:linear-gradient(90deg,#071020,#0b1222);border:1px solid rgba(127,183,247,0.12);font-weight:700;color:var(--accent);z-index:70;
+}
+.hidden{display:none}
+
+#prompt{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:rgba(1,6,10,0.6);padding:8px 12px;border-radius:8px;font-size:13px;color:#dbe9ff;z-index:70}
+
+@media (max-width:900px){
+  #ui{width:200px}
+  canvas{width:calc(100vw - 24px);height:60vh}
+}
